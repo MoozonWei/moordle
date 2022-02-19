@@ -79,7 +79,7 @@ setInterval(() => {
   if (store.localStorageDate !== dayjs().format('YYYY-MM-DD')) window.location.reload()
 }, 1000)
 
-const text = computed(() => `Moordle ${store.boardCurRow}/6 ${dayjs().format('YYYY-MM-DD')}\n\n${
+const text = computed(() => `Moordle\n${
   store.boardColors.map(row => {
     return row.map(color => {
       switch (color) {
@@ -94,7 +94,7 @@ const text = computed(() => `Moordle ${store.boardCurRow}/6 ${dayjs().format('YY
       }
     }).join('')
   }).join('\n')
-}\n\nMoozon`)
+}\n[${store.boardCurRow}/6]·${dayjs().format('YYYY-MM-DD')}\nmoozonwei.github.io/Moordle_demo/`)
 
 const share = useShare(computed(() => ({
   title: 'Moordle',
