@@ -1,4 +1,5 @@
 <script setup>
+import Message from './components/Message.vue'
 import Help from './components/Help.vue'
 import Statistics from './components/Statistics.vue'
 import Keyboard from './components/Keyboard.vue'
@@ -10,6 +11,9 @@ import {onMounted} from 'vue'
 import dayjs from 'dayjs'
 
 const store = useStore()
+
+// message
+const duration = 2000
 
 // get word of the day
 const solution = getWordOfTheDay()
@@ -50,7 +54,7 @@ const handleUserInput = async (inputLetter) => {
         store.boardCurRow++
         store.boardCurCol = 0
         if (letterPool.length === 0) {
-          alert('win')
+          await store.showMessage('👏 Congrats! 🍾', duration)
           store.gameState = 'w'
           store.statistics.played++
           store.statistics.win++
@@ -59,17 +63,17 @@ const handleUserInput = async (inputLetter) => {
           store.statistics.maxStreak = Math.max(store.statistics.currentStreak, store.statistics.maxStreak)
           store.pages.showStatistics = true
         } else if (store.boardCurRow >= 6) {
-          alert('lose')
+          await store.showMessage('😢 Try again tmrw... 😿', duration)
           store.gameState = 'l'
           store.statistics.played++
           store.statistics.currentStreak = 0
           store.pages.showStatistics = true
         }
       } else {
-        alert('not a word')
+        await store.showMessage('Not a word', duration)
       }
     } else {
-      alert('not enough letters')
+      await store.showMessage('Not enough letters...', duration)
     }
   } else if (/^[a-zA-Z]$/.test(inputLetter) && store.boardCurCol < 5) {
     store.boardLetters[store.boardCurRow][store.boardCurCol] = inputLetter
@@ -118,6 +122,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <Message v-if="store.message">{{ store.message }}</Message>
   <div class="app-wrapper">
     <Help/>
     <Statistics/>

@@ -4,6 +4,7 @@ import {useStorage} from '@vueuse/core'
 export const useStore = defineStore('main', {
     state: () => {
         return {
+            message: '',
             localStorageDate: useStorage('date', ''),
             pages: {
                 showHelp: false,
@@ -40,6 +41,13 @@ export const useStore = defineStore('main', {
                 ['', '', '', '', ''],
                 ['', '', '', '', '']
             ])
+        }
+    },
+    actions: {
+        async showMessage(msg, time = 2000) {
+            this.message = msg
+            await new Promise(resolve => setTimeout(resolve, time))
+            this.message = ''
         }
     }
 })

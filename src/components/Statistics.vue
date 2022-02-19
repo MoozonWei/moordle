@@ -106,10 +106,12 @@ const clipboard = useClipboard()
 async function start() {
   if (share.isSupported) {
     await share.share()
-    alert('shared' + share.isSupported + clipboard.isSupported)
-  } else  {
+    await store.showMessage('Shared', 1000)
+  } else if (clipboard.isSupported) {
     await clipboard.copy(text.value)
-    alert('copied')
+    await store.showMessage('Copied', 1000)
+  } else {
+    await store.showMessage(text.value.split('\n').slice(0, 8).join('\n'), 10000)
   }
 }
 
