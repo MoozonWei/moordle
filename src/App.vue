@@ -1,4 +1,5 @@
 <script setup>
+import Help from './components/Help.vue'
 import Statistics from './components/Statistics.vue'
 import Keyboard from './components/Keyboard.vue'
 import NavigatorBar from './components/NavigatorBar.vue'
@@ -15,7 +16,6 @@ const solution = getWordOfTheDay()
 
 const handleUserInput = async (inputLetter) => {
   if (store.gameState !== 'p') return
-  console.log(inputLetter)
   if (inputLetter === 'BACKSPACE') {
     if (store.boardCurCol !== 0) {
       store.boardCurCol--
@@ -24,12 +24,10 @@ const handleUserInput = async (inputLetter) => {
   } else if (inputLetter === 'ENTER') {
     if (store.boardCurCol === 5) {
       const currentGuess = store.boardLetters[store.boardCurRow].join('').toLowerCase()
-      console.log(currentGuess)
       if (allWords.includes(currentGuess)) {
         const tempState = ['', '', '', '', '']
         const letterPool = []
         for (let i = 0; i < 5; i++) {
-          console.log(currentGuess.charAt(i) === solution.charAt(i), currentGuess.charAt(i), solution.charAt(i))
           if (currentGuess.charAt(i) === solution.charAt(i)) {
             tempState[i] = 's'
           } else {
@@ -52,7 +50,6 @@ const handleUserInput = async (inputLetter) => {
         store.boardCurRow++
         store.boardCurCol = 0
         if (letterPool.length === 0) {
-          console.log('win!!!')
           alert('win')
           store.gameState = 'w'
           store.statistics.played++
@@ -62,7 +59,6 @@ const handleUserInput = async (inputLetter) => {
           store.statistics.maxStreak = Math.max(store.statistics.currentStreak, store.statistics.maxStreak)
           store.pages.showStatistics = true
         } else if (store.boardCurRow >= 6) {
-          console.log('lose')
           alert('lose')
           store.gameState = 'l'
           store.statistics.played++
@@ -81,8 +77,7 @@ const handleUserInput = async (inputLetter) => {
   }
 }
 
-onMounted(() => {
-  // initialize local storage
+const initializeLocalStorage = () => {
   if (store.localStorageDate === '') {
     store.localStorageDate = dayjs().format('YYYY-MM-DD')
   } else if (store.localStorageDate !== dayjs().format('YYYY-MM-DD')) {
@@ -107,9 +102,14 @@ onMounted(() => {
     ]
     store.localStorageDate = dayjs().format('YYYY-MM-DD')
   }
+}
+
+onMounted(() => {
+  // initialize local storage
+  initializeLocalStorage()
 
   if (store.statistics.played === 0) {
-    // show help
+    store.pages.showHelp = true
   }
   if (store.gameState !== 'p') {
     store.pages.showStatistics = true
@@ -119,6 +119,7 @@ onMounted(() => {
 
 <template>
   <div class="app-wrapper">
+    <Help/>
     <Statistics/>
     <NavigatorBar/>
     <MatrixBoard/>
@@ -147,6 +148,12 @@ html, body {
   margin: 0;
   padding: 0;
   font-size: .16rem;
+}
+
+button {
+  outline: none;
+  border: none;
+  color: black;
 }
 
 #app {

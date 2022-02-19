@@ -52,7 +52,7 @@
           <span class="next-game-time">{{ remainTime }}</span>
         </div>
         <div class="divide-line"></div>
-        <div class="share-button">SHARE</div>
+        <button class="share-button" @click="start()">SHARE</button>
       </div>
     </div>
   </div>
@@ -60,8 +60,9 @@
 
 <script setup>
 import {useStore} from '../store'
-import {ref} from 'vue'
+import {ref, computed} from 'vue'
 import dayjs from 'dayjs'
+import {useClipboard, useShare} from '@vueuse/core'
 
 const store = useStore()
 
@@ -75,8 +76,50 @@ setInterval(() => {
   m = m < 10 ? '0' + m : m
   s = s < 10 ? '0' + s : s
   remainTime.value = `${h}:${m}:${s}`
+  if (store.localStorageDate !== dayjs().format('YYYY-MM-DD')) window.location.reload()
 }, 1000)
 
+const text = computed(() => `Moordle ${store.boardCurRow}/6 ${dayjs().format('YYYY-MM-DD')}\n\n${
+  store.boardColors.map(row => {
+    return row.map(color => {
+      switch (color) {
+        case 's':
+          return '🟩'
+        case 'h':
+          return '🟨'
+        case 'f':
+          return '⬛️'
+        case '':
+          return '⬜️'
+      }
+    }).join('')
+  }).join('\n')
+}\n\nMoozon`)
+
+const share = useShare(computed(() => ({
+  title: 'Moordle',
+  text: text.value
+})))
+
+const clipboard = useClipboard()
+
+async function start() {
+  if (share.isSupported) {
+    await share.share()
+    alert('shared' + share.isSupported + clipboard.isSupported)
+  } else  {
+    await clipboard.copy(text.value)
+    alert('copied')
+  }
+}
+
+// const handleShareClick = (e) => {
+//   e.target.style.backgroundColor = 'var(--darkendGreen)'
+//   setTimeout(() => {
+//     e.target.style.backgroundColor = 'var(--green)'
+//   }, 100)
+//   start()
+// }
 </script>
 
 <script>
@@ -145,9 +188,11 @@ export default {
         padding: .03rem 0;
 
         .guess-num {
-          width: .8em;
-          text-align: right;
+          width: 1em;
+          text-align: center;
           margin-right: .2em;
+          color: black;
+          font-weight: 500;
         }
 
         .guess-bar-wrapper {
@@ -202,6 +247,10 @@ export default {
         padding: .5em 0;
         border-radius: .2em;
         cursor: pointer;
+
+        &:active {
+          background-color: var(--darkendGreen);
+        }
       }
     }
   }
