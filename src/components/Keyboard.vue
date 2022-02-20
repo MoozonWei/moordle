@@ -70,6 +70,7 @@ const keyboardLayout = [
 ]
 
 const handleKeyClick = (e) => {
+  e.preventDefault()
   const targetElement = e.target
   emit('onUserInput', targetElement.innerText || 'BACKSPACE')
   // targetElement.style.backgroundColor = 'gray'

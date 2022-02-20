@@ -21,7 +21,7 @@ export const useStore = defineStore('main', {
             // game state
             // p - in progress
             // w - win
-            // l - lost
+            // l - lose
             gameState: useStorage('game-state', 'p'),
             boardCurRow: useStorage('board-cur-row', 0),
             boardCurCol: useStorage('board-cur-col', 0),

@@ -13,7 +13,7 @@ import dayjs from 'dayjs'
 const store = useStore()
 
 // message
-const duration = 2000
+const duration = 1000
 
 // get word of the day
 const solution = getWordOfTheDay()
@@ -58,22 +58,23 @@ const handleUserInput = async (inputLetter) => {
           store.gameState = 'w'
           store.statistics.played++
           store.statistics.win++
-          store.statistics.guessDistribution[store.boardCurRow-1]++
+          store.statistics.guessDistribution[store.boardCurRow - 1]++
           store.statistics.currentStreak++
           store.statistics.maxStreak = Math.max(store.statistics.currentStreak, store.statistics.maxStreak)
           store.pages.showStatistics = true
         } else if (store.boardCurRow >= 6) {
           await store.showMessage('😢 Try again tmrw... 😿', duration)
+          await store.showMessage(solution.toUpperCase(), 2000)
           store.gameState = 'l'
           store.statistics.played++
           store.statistics.currentStreak = 0
           store.pages.showStatistics = true
         }
       } else {
-        await store.showMessage('Not a word', duration)
+        await store.showMessage('Not in word list', duration)
       }
     } else {
-      await store.showMessage('Not enough letters...', duration)
+      await store.showMessage('Not enough letters', duration)
     }
   } else if (/^[a-zA-Z]$/.test(inputLetter) && store.boardCurCol < 5) {
     store.boardLetters[store.boardCurRow][store.boardCurCol] = inputLetter
@@ -112,7 +113,7 @@ onMounted(() => {
   // initialize local storage
   initializeLocalStorage()
 
-  if (store.statistics.played === 0) {
+  if (store.statistics.played === 0 && store.gameState === '') {
     store.pages.showHelp = true
   }
   if (store.gameState !== 'p') {
@@ -123,14 +124,13 @@ onMounted(() => {
 
 <template>
   <Message v-if="store.message">{{ store.message }}</Message>
+  <div class="solution" v-if="store.gameState === 'l'">{{ solution.toUpperCase() }}</div>
   <div class="app-wrapper">
     <Help/>
     <Statistics/>
     <NavigatorBar/>
     <MatrixBoard/>
-    <Keyboard
-      @onUserInput="handleUserInput"
-    />
+    <Keyboard @onUserInput="handleUserInput"/>
   </div>
 </template>
 
@@ -163,6 +163,19 @@ button {
 
 #app {
   height: 100%;
+}
+
+.solution {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  padding: 1em;
+  border-radius: .3em;
+  box-shadow: 0 4px 23px 0 rgb(0 0 0 / 20%);
 }
 
 .app-wrapper {
