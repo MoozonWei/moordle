@@ -30,30 +30,33 @@ const handleUserInput = async (inputLetter) => {
       const currentGuess = store.boardLetters[store.boardCurRow].join('').toLowerCase()
       if (allWords.includes(currentGuess)) {
         const tempState = ['', '', '', '', '']
-        const letterPool = []
+        const solutionArr = solution.split('')
+        // mark correct letters
         for (let i = 0; i < 5; i++) {
-          if (currentGuess.charAt(i) === solution.charAt(i)) {
+          if (currentGuess.charAt(i) === solutionArr[i]) {
             tempState[i] = 's'
-          } else {
-            letterPool.push(solution.charAt(i))
+            solutionArr[i] = ''
           }
         }
+        // mark hint
         for (let i = 0; i < 5; i++) {
-          if (tempState[i] === '') {
-            if (letterPool.indexOf(currentGuess.charAt(i)) !== -1) {
-              tempState[i] = 'h'
-            } else {
-              tempState[i] = 'f'
-            }
+          if (tempState[i] === '' && solutionArr.includes(currentGuess.charAt(i))) {
+            tempState[i] = 'h'
+            solutionArr[solutionArr.indexOf(currentGuess.charAt(i))] = ''
           }
         }
+        // mark failed
+        for(let i = 0; i < 5; i++) {
+          if (tempState[i] === '') tempState[i] = 'f'
+        }
+        // change boardColors
         for (let i = 0; i < 5; i++) {
           store.boardColors[store.boardCurRow][i] = tempState[i]
           await new Promise(resolve => setTimeout(resolve, 500))
         }
         store.boardCurRow++
         store.boardCurCol = 0
-        if (letterPool.length === 0) {
+        if (tempState.join('') === 'sssss') {
           await store.showMessage('👏 Congrats! 🍾', duration)
           store.gameState = 'w'
           store.statistics.played++

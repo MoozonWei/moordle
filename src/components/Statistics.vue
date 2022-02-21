@@ -94,7 +94,7 @@ const text = computed(() => `Moordle\n${
       }
     }).join('')
   }).join('\n')
-}\n[${store.gameState === 'w' ? (store.boardCurRow  + '/6') : '-_-'}]·${dayjs().format('YYYY-MM-DD')}\nmoozonwei.github.io/Moordle_demo/`)
+}\n[${store.gameState === 'w' ? (store.boardCurRow  + '/6') : '-_-'}]·${dayjs().format('YYYY-MM-DD')}\nmoozonwei.github.io/moordle-demo/`)
 
 const share = useShare(computed(() => ({
   title: 'Moordle',
@@ -111,17 +111,9 @@ async function start() {
     await clipboard.copy(text.value)
     await store.showMessage('Copied', 1000)
   } else {
-    await store.showMessage(text.value.split('\n').slice(0, 8).join('\n'), 10000)
+    await store.showMessage(text.value.split('\n').slice(0, 8).join('\n'))
   }
 }
-
-// const handleShareClick = (e) => {
-//   e.target.style.backgroundColor = 'var(--darkendGreen)'
-//   setTimeout(() => {
-//     e.target.style.backgroundColor = 'var(--green)'
-//   }, 100)
-//   start()
-// }
 </script>
 
 <script>

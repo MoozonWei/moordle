@@ -44,10 +44,14 @@ export const useStore = defineStore('main', {
         }
     },
     actions: {
-        async showMessage(msg, time = 2000) {
-            this.message = msg
-            await new Promise(resolve => setTimeout(resolve, time))
-            this.message = ''
+        async showMessage(msg, time) {
+            if (time) {
+                this.message = msg
+                await new Promise(resolve => setTimeout(resolve, time))
+                this.message = ''
+            } else {
+                this.message = msg
+            }
         }
     }
 })

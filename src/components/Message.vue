@@ -1,10 +1,16 @@
 <template>
-  <div class="message-wrapper">
+  <div class="message-wrapper" @click.prevent="store.message = ''">
     <div class="message-box">
       <slot></slot>
     </div>
   </div>
 </template>
+
+<script setup>
+import {useStore} from '../store'
+
+const store = useStore()
+</script>
 
 <script>
 export default {
