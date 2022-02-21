@@ -36,6 +36,7 @@ export default {
     padding: 1em;
     border-radius: .3em;
     white-space: pre-line;
+    box-shadow: 0 4px 23px 0 rgb(0 0 0 / 20%);
   }
 }
 </style>

@@ -85,9 +85,12 @@ const handleUserInput = async (inputLetter) => {
   }
 }
 
-const initializeLocalStorage = () => {
+const resetLocalStorage = () => {
   if (store.localStorageDate === '') {
     store.localStorageDate = dayjs().format('YYYY-MM-DD')
+    if (store.statistics.played === 0) {
+      store.pages.showHelp = true
+    }
   } else if (store.localStorageDate !== dayjs().format('YYYY-MM-DD')) {
     store.gameState = 'p'
     store.boardCurRow = 0
@@ -113,12 +116,9 @@ const initializeLocalStorage = () => {
 }
 
 onMounted(() => {
-  // initialize local storage
-  initializeLocalStorage()
+  // reset local storage
+  resetLocalStorage()
 
-  if (store.statistics.played === 0 && store.gameState === '') {
-    store.pages.showHelp = true
-  }
   if (store.gameState !== 'p') {
     store.pages.showStatistics = true
   }

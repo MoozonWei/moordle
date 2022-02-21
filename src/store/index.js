@@ -5,13 +5,13 @@ export const useStore = defineStore('main', {
     state: () => {
         return {
             message: '',
-            localStorageDate: useStorage('date', ''),
+            localStorageDate: useStorage('moordle-date', ''),
             pages: {
                 showHelp: false,
                 showStatistics: false,
                 showSetting: false
             },
-            statistics: useStorage('statistics', {
+            statistics: useStorage('moordle-statistics', {
                 played: 0,
                 win: 0,
                 currentStreak: 0,
@@ -22,10 +22,10 @@ export const useStore = defineStore('main', {
             // p - in progress
             // w - win
             // l - lose
-            gameState: useStorage('game-state', 'p'),
-            boardCurRow: useStorage('board-cur-row', 0),
-            boardCurCol: useStorage('board-cur-col', 0),
-            boardLetters: useStorage('board-letters', [
+            gameState: useStorage('moordle-game-state', 'p'),
+            boardCurRow: useStorage('moordle-board-cur-row', 0),
+            boardCurCol: useStorage('moordle-board-cur-col', 0),
+            boardLetters: useStorage('moordle-board-letters', [
                 ['', '', '', '', ''],
                 ['', '', '', '', ''],
                 ['', '', '', '', ''],
@@ -33,7 +33,7 @@ export const useStore = defineStore('main', {
                 ['', '', '', '', ''],
                 ['', '', '', '', '']
             ]),
-            boardColors: useStorage('board-colors', [
+            boardColors: useStorage('moordle-board-colors', [
                 ['', '', '', '', ''],
                 ['', '', '', '', ''],
                 ['', '', '', '', ''],
