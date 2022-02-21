@@ -26,11 +26,12 @@
     </div>
     <div class="row">
       <button
-        class="single-key"
+        id="key-ENTER"
+        class="single-key iconfont"
         @click="handleKeyClick"
         style="width: 15%"
       >
-        ENTER
+        &#xe600;
       </button>
       <button
         :id="'key-' + keyboardLayout[2][i-1]"
@@ -42,14 +43,12 @@
       >{{ keyboardLayout[2][i - 1] }}
       </button>
       <button
-        class="single-key"
+        id="key-BACKSPACE"
+        class="single-key iconfont"
         @click="handleKeyClick"
         style="width: 15%"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-          <path fill="var(--color-tone-1)"
-                d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"></path>
-        </svg>
+        &#xef30;
       </button>
     </div>
   </div>
@@ -72,11 +71,14 @@ const keyboardLayout = [
 const handleKeyClick = (e) => {
   e.preventDefault()
   const targetElement = e.target
-  emit('onUserInput', targetElement.innerText || 'BACKSPACE')
-  // targetElement.style.backgroundColor = 'gray'
-  // setTimeout(() => {
-  //   targetElement.style.backgroundColor = ''
-  // }, 1)
+  const innerText = targetElement.innerText
+  let emitPayload = innerText
+  if (targetElement.id === 'key-ENTER') {
+    emitPayload = 'ENTER'
+  } else if (targetElement.id === 'key-BACKSPACE') {
+    emitPayload = 'BACKSPACE'
+  }
+  emit('onUserInput', emitPayload)
 }
 
 const whatColorIsThisKey = (keyStr) => {
@@ -97,6 +99,14 @@ onMounted(() => {
   window.onkeyup = (e) => {
     emit('onUserInput', e.key.toUpperCase())
   }
+
+
+  const keyArray = Array.prototype.slice.call(document.getElementsByClassName('single-key'))
+
+  keyArray.forEach(e => {
+    const style = document.defaultView.getComputedStyle(e, '')
+    e.style.fontSize = `${parseInt(style.height) * 0.25}px`
+  })
 })
 
 </script>
@@ -108,7 +118,43 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+@font-face {
+  font-family: "iconfont"; /* Project id 3195908 */
+  src: url('//at.alicdn.com/t/font_3195908_6me9s284z6m.woff2?t=1645440828122') format('woff2'),
+  url('//at.alicdn.com/t/font_3195908_6me9s284z6m.woff?t=1645440828122') format('woff'),
+  url('//at.alicdn.com/t/font_3195908_6me9s284z6m.ttf?t=1645440828122') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-Backspace-copy:before {
+  content: "\ef30";
+}
+
+.icon-backspace1:before {
+  content: "\ef2f";
+}
+
+.icon-Backspace:before {
+  content: "\e61b";
+}
+
+.icon-backspace:before {
+  content: "\e611";
+}
+
+.icon-enter1:before {
+  content: "\e600";
+}
+
 .keyboard-wrapper {
+  flex: 1;
   width: 100%;
   height: 2rem;
   display: flex;

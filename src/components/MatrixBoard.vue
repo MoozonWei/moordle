@@ -40,6 +40,13 @@ onMounted(() => {
       e.style.width = style.height
       e.style.fontSize = `${parseInt(style.height) * 0.5}px`
     })
+
+    const keyArray = Array.prototype.slice.call(document.getElementsByClassName('single-key'))
+
+    keyArray.forEach(e => {
+      const style = document.defaultView.getComputedStyle(e, '')
+      e.style.fontSize = `${parseInt(style.height) * 0.25}px`
+    })
   }
 })
 </script>
@@ -53,18 +60,19 @@ export default {
 <style lang='scss' scoped>
 .matrix-board-wrapper {
   width: 100%;
-  flex: 1;
-  padding: .1rem 0;
+  flex: 2;
+  padding: .2rem 0;
   display: flex;
   justify-content: center;
   align-items: stretch;
 
   .letters {
-    padding: .04rem;
+    //padding: .04rem;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(6, 1fr);
     grid-gap: .04rem;
+    max-height: calc(110vw);
 
     .letter-box {
       border-radius: 10%;
