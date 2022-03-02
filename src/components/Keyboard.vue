@@ -182,6 +182,7 @@ export default {
   align-items: center;
   cursor: pointer;
   overflow: hidden;
+  transition: all .5s ease-out;
 
   &:active {
     background-color: gray;

@@ -48,7 +48,7 @@
       </div>
       <div class="share" v-if="store.gameState !== 'p'">
         <div class="next-game">
-          <span>NEXT WORDLE</span>
+          <span>NEXT MOORDLE</span>
           <span class="next-game-time">{{ remainTime }}</span>
         </div>
         <div class="divide-line"></div>

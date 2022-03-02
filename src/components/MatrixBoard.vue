@@ -81,6 +81,7 @@ export default {
       justify-content: center;
       align-items: center;
       font-weight: bold;
+      transition: all .5s ease-out;
     }
   }
 }
