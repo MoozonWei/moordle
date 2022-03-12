@@ -94,7 +94,7 @@ const text = computed(() => `Moordle\n${
       }
     }).join('')
   }).join('\n')
-}\n[${store.gameState === 'w' ? (store.boardCurRow  + '/6') : '-_-'}]·${dayjs().format('YYYY-MM-DD')}\nmoozonwei.github.io/moordle-demo/`)
+}\n[${store.gameState === 'w' ? (store.boardCurRow  + '/6') : '-_-'}]·${dayjs().format('YYYY-MM-DD')}\nmoordle.netlify.app`)
 
 const share = useShare(computed(() => ({
   title: 'Moordle',
