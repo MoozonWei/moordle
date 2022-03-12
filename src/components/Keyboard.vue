@@ -1,51 +1,46 @@
 <template>
-  <div class="keyboard-wrapper">
+  <div class="keyboard-wrapper" @click="handleKeyClick">
     <div class="row">
       <button
-        :id="'key-' + keyboardLayout[0][i-1]"
+        :data-key-letter="keyboardLayout[0][i-1]"
         class="single-key"
         :class="whatColorIsThisKey(keyboardLayout[0][i-1])"
         v-for="i in 10"
         :key="keyboardLayout[0][i]"
-        @click="handleKeyClick"
       >{{ keyboardLayout[0][i - 1] }}
       </button>
     </div>
     <div class="row">
       <div style="width: 5%"></div>
       <button
-        :id="'key-' + keyboardLayout[1][i-1]"
+        :data-key-letter="keyboardLayout[1][i-1]"
         class="single-key"
         :class="whatColorIsThisKey(keyboardLayout[1][i-1])"
         v-for="i in 9"
         :key="keyboardLayout[1][i-1]"
-        @click="handleKeyClick"
       >{{ keyboardLayout[1][i - 1] }}
       </button>
       <div style="width:5%"></div>
     </div>
     <div class="row">
       <button
-        id="key-ENTER"
+        data-key-letter="ENTER"
         class="single-key iconfont"
-        @click="handleKeyClick"
         style="width: 15%"
       >
         &#xe600;
       </button>
       <button
-        :id="'key-' + keyboardLayout[2][i-1]"
+        :data-key-letter="keyboardLayout[2][i-1]"
         class="single-key"
         :class="whatColorIsThisKey(keyboardLayout[2][i-1])"
         v-for="i in 7"
         :key="keyboardLayout[2][i-1]"
-        @click="handleKeyClick"
       >{{ keyboardLayout[2][i - 1] }}
       </button>
       <button
-        id="key-BACKSPACE"
+        data-key-letter="BACKSPACE"
         class="single-key iconfont"
-        @click="handleKeyClick"
         style="width: 15%"
       >
         &#xef30;
@@ -60,6 +55,7 @@ import {useStore} from '../store'
 
 const store = useStore()
 
+// eslint-disable-next-line
 const emit = defineEmits(['onUserInput'])
 
 const keyboardLayout = [
@@ -70,15 +66,9 @@ const keyboardLayout = [
 
 const handleKeyClick = (e) => {
   e.preventDefault()
-  const targetElement = e.target
-  const innerText = targetElement.innerText
-  let emitPayload = innerText
-  if (targetElement.id === 'key-ENTER') {
-    emitPayload = 'ENTER'
-  } else if (targetElement.id === 'key-BACKSPACE') {
-    emitPayload = 'BACKSPACE'
-  }
-  emit('onUserInput', emitPayload)
+  e.stopPropagation()
+  if (e.target.dataset.keyLetter)
+    emit('onUserInput', e.target.dataset.keyLetter)
 }
 
 const whatColorIsThisKey = (keyStr) => {
