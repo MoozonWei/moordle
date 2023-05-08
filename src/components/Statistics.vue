@@ -111,10 +111,10 @@ async function start() {
   } else if (clipboard.isSupported && permissionWrite) {
     try {
       await clipboard.copy(text.value)
+      await store.showMessage('Copied', 1000)
     } catch (e) {
       await store.showMessage(text.value)
     }
-    await store.showMessage('Copied', 1000)
   } else {
     await store.showMessage(text.value)
   }
