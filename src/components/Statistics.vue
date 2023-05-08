@@ -111,7 +111,7 @@ async function start() {
     await clipboard.copy(text.value)
     await store.showMessage('Copied', 1000)
   } else {
-    await store.showMessage(text.value.split('\n').slice(0, 8).join('\n'))
+    await store.showMessage(text.value)
   }
 }
 </script>
