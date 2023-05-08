@@ -62,7 +62,7 @@
 import {useStore} from '../store'
 import {ref, computed} from 'vue'
 import dayjs from 'dayjs'
-import {useClipboard, useShare} from '@vueuse/core'
+import {useClipboard, useShare, usePermission} from '@vueuse/core'
 
 const store = useStore()
 
@@ -102,12 +102,13 @@ const share = useShare(computed(() => ({
 })))
 
 const clipboard = useClipboard()
+const permissionWrite = usePermission('clipboard-write')
 
 async function start() {
   if (share.isSupported) {
     await share.share()
     await store.showMessage('Shared', 1000)
-  } else if (clipboard.isSupported) {
+  } else if (clipboard.isSupported && permissionWrite) {
     try {
       await clipboard.copy(text.value)
     } catch (e) {
