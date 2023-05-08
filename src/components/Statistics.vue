@@ -104,13 +104,10 @@ const share = useShare(computed(() => ({
 const clipboard = useClipboard()
 
 async function start() {
-  alert(`${share.isSupported} ${clipboard.isSupported}`)
   if (share.isSupported) {
-    alert('share isSupported')
     await share.share()
     await store.showMessage('Shared', 1000)
   } else if (clipboard.isSupported) {
-    alert('clipboard isSupported')
     try {
       await clipboard.copy(text.value)
     } catch (e) {
@@ -118,7 +115,6 @@ async function start() {
     }
     await store.showMessage('Copied', 1000)
   } else {
-    alert('show message')
     await store.showMessage(text.value)
   }
 }
