@@ -108,7 +108,11 @@ async function start() {
     await share.share()
     await store.showMessage('Shared', 1000)
   } else if (clipboard.isSupported) {
-    await clipboard.copy(text.value)
+    try {
+      await clipboard.copy(text.value)
+    } catch (e) {
+      await store.showMessage(text.value)
+    }
     await store.showMessage('Copied', 1000)
   } else {
     await store.showMessage(text.value)
