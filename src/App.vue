@@ -126,15 +126,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <Message v-if="store.message">{{ store.message }}</Message>
-  <div class="solution" v-if="store.gameState === 'l'">{{ solution.toUpperCase() }}</div>
-  <div class="app-wrapper">
-    <Help/>
-    <Statistics/>
-    <NavigatorBar/>
-    <MatrixBoard/>
-    <Keyboard @onUserInput="handleUserInput"/>
-  </div>
+    <div class="app-wrapper">
+      <Message v-if="store.message" />
+      <div class="solution" v-if="store.gameState === 'l'">{{ solution.toUpperCase() }}</div>
+      <Help/>
+      <Statistics/>
+      <NavigatorBar/>
+      <MatrixBoard/>
+      <Keyboard @onUserInput="handleUserInput"/>
+    </div>
 </template>
 
 <style lang="scss">

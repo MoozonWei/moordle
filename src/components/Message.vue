@@ -1,8 +1,6 @@
 <template>
   <div class="message-wrapper" @click.prevent="store.message = ''">
-    <div class="message-box">
-      <slot></slot>
-    </div>
+    <div class="message-box" v-html="store.message" />
   </div>
 </template>
 

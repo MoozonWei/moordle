@@ -79,7 +79,7 @@ setInterval(() => {
   if (store.localStorageDate !== dayjs().format('YYYY-MM-DD')) window.location.reload()
 }, 1000)
 
-const text = computed(() => `Moordle\n${
+const text = computed(() => `Moordle\r\n${
   store.boardColors.map(row => {
     return row.map(color => {
       switch (color) {
@@ -93,8 +93,8 @@ const text = computed(() => `Moordle\n${
           return '⬜️'
       }
     }).join('')
-  }).join('\n')
-}\n[${store.gameState === 'w' ? (store.boardCurRow  + '/6') : '-_-'}]·${dayjs().format('YYYY-MM-DD')}\nhttps://moordle.moozon.site/`)
+  }).join('\r\n')
+}\r\n[${store.gameState === 'w' ? (store.boardCurRow  + '/6') : '-_-'}]·${dayjs().format('YYYY-MM-DD')}\r\nhttps://moordle.moozon.site/`)
 
 const share = useShare(computed(() => ({
   title: 'Moordle',
@@ -113,10 +113,10 @@ async function start() {
       await clipboard.copy(text.value)
       await store.showMessage('Copied', 1000)
     } catch (e) {
-      await store.showMessage(text.value)
+      await store.showMessage(text.value.split('\r\n').join('<br>'))
     }
   } else {
-    await store.showMessage(text.value)
+    await store.showMessage(text.value.split('\r\n').join('<br>'))
   }
 }
 </script>
