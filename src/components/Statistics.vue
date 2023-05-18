@@ -39,7 +39,11 @@
               :class="{
                 'bgc-green': store.gameState === 'w' && i === store.boardCurRow
               }"
-              :style="`width: ${store.statistics.guessDistribution[i - 1] === 0 ? 'auto' : (store.statistics.guessDistribution[i - 1] * 100 / Math.max(...store.statistics.guessDistribution) + '%')} min-width: auto`"
+              :style="`width: ${store.statistics.guessDistribution[i - 1] === 0
+                  ? 'auto' 
+                  : (store.statistics.guessDistribution[i - 1] * 100 / Math.max(...store.statistics.guessDistribution) + '%')};
+                  min-width: 0.17777rem;
+                `"
             >
               {{ store.statistics.guessDistribution[i - 1] }}
             </div>
